@@ -2,22 +2,52 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Back End Assessment</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="container">
-  <button id="complimentButton">Get a compliment</button>
-  <button id="fortuneButton">Get a fortune</button>
+<body>
 
-  <br><br>
-  <br><br>
   <main>
+    <section class="container">
+      <div id="boxes">
+        <center>
+          <h2> Click the button to feel better</h2>
 
+          <button id="complimentButton">Get a compliment</button>
+        </center>
+      </div>
+      <div id="boxes">
+        <center>
+          <h2> Let me tell you about your future</h2>
+
+          <button id="fortuneButton">Get a fortune</button>
+      </div>
+      </center>
+      <div id="boxes">
+        <center>
+          <h2> Random Gif</h2>
+
+          <button id="gif-btn">Random Gif</button>
+          <section id="gif-section"></section>
+      </div>
+      </center>
+
+
+
+    </section>
+    <br><br>
+    <br><br>
     <form id="formGoal">
-      <input type='text' id="nowGoal" placeholder="What goal do you want to accomplish today?" />
-      <input type='text' id="futureGoal" placeholder='What goal do you want to set for the future?' />
-      <select name="feelings" id="feelingSelect">
-        <option value="">how are you feeling?</option>
+      <h3>Now goal:</h3> <input type='text' id="nowGoal" placeholder="What goal do you want to accomplish today?" />
+      <h3>Future goal:</h3><input type='text' id="futureGoal"
+        placeholder='What goal do you want to set for the future?' />
+      <h3>How you feel today?:</h3>
+      <select id="feelingSelect">
+        <option disabled value="">how are you feeling?</option>
         <option value="happy">Happy</option>
         <option value="sad">Sad</option>
         <option value="mad">Mad</option>
@@ -27,10 +57,15 @@
     </form>
 
 
+    <section id="feeling-list"></section>
 
   </main>
 
+
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- CDN content deliver network -->
+
+
   <script src="./index.js">
 
   </script>

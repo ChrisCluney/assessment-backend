@@ -1,8 +1,19 @@
 
 
+const gifBtn = document.getElementById("gif-btn");
+const gifSection = document.getElementById("gif-section");
+const formGoal = document.getElementById("formGoal"); // name of form
+const nowGoal = document.getElementById("nowGoal");// Now goal section
+const futureGoal = document.getElementById("futureGoal")// future goal section
+const feeling = document.getElementById("feelingSelect")// feeling dropdown menu
+
+const feelingSection = document.getElementById("feeling-list") // where the information is going to show
+
+const submitBtn = document.getElementById("myButton")
 
 
 
+// Compliment Button
 document.getElementById("complimentButton").onclick = function () {
     axios.get("http://localhost:4000/api/compliment/")
         .then(function (response) {
@@ -12,7 +23,7 @@ document.getElementById("complimentButton").onclick = function () {
   };
 
 
-
+// Fortune button
   document.getElementById("fortuneButton").onclick = function () {
     axios.get("http://localhost:4000/api/fortune/")
         .then(function (response) {
@@ -22,7 +33,7 @@ document.getElementById("complimentButton").onclick = function () {
   };
 
   document.getElementById("myButton").onclick = function () {
-    axios.get("http://localhost:4000/api/goals/")
+    axios.get("http://localhost:4000/api/goal/")
         .then(function (response) {
           const data = response.data;
           alert(data);
@@ -31,63 +42,84 @@ document.getElementById("complimentButton").onclick = function () {
 
 
 
+  //Delete an item
+  const deleteItem = (id) => {
+    axios.delete(`http://localhost:4000/api/goal/${id}`)
+    .then((res) => {
+      displayItems(res.data);
+    });
+  };
 
-  const goalCallback = ({ data: goals }) => displayGoals(goal)
-const errCallback = err => console.log(err)
+  const createItem = (item) => {
+    const newItem = document.createElement("div");
 
-const getAllGoals = () => axios.get(baseURL).then(goalCallback).catch(errCallback)
-const createGoals = body => axios.post(baseURL, body).then(goalCallback).catch(errCallback)
-const deleteGoals = id => axios.delete(`${baseURL}/${id}`).then(goalCallback).catch(errCallback)
-const updateGoals = (id, type) => axios.put(`${baseURL}/${id}`, {type}).then(goalCallback).catch(errCallback)
+      newItem.className = "new-item";
+      newItem.innerHTML = `<h1 class='nowGoal'>${item.nowGoal}</h1>
+        <p>Future Goal: ${item.futureGoal}</p>
+        <p>Feeling: ${item.feeling}</p>
+        <button class='delete-btn' value="${item.id}">delete</button>`;
 
-function submitHandler(e) {
-    e.preventDefault()
+        feelingSection.appendChild(newItem);
 
-    let nowGoal = document.querySelector('#nowGoal')
-    let futureGoal = document.querySelector('#futureGoal')
-    let feelingSelect = document.querySelector('feelingSelect')
+        let deleteBtns = document.getElementsByClassName("delete-btn");
 
-    let bodyObj = {
-        nowGoal: nowGoal.value,
-        futureGoal: futureGoal.value, 
-        feelingSelect: feelingSelect.value
+        for (let i = 0; i < deleteBtns.length; i++) {
+          deleteBtns[i].addEventListener("click", deleteItem);
+        }
+
+  }
+
+  //makes the cards to display the items
+  const displayItems = (arr) => {
+    // console.log(arr);
+    while(feelingSection.firstChild) {
+      feelingSection.removeChild(feelinglist.firstChild);
     }
 
-    createGoal(bodyObj)
+    for (let i = 0; i < arr.length; i++) {
+      createItem(arr[i])
+    }
+  };
 
-    nowGoal.value = ''
-    futureGoal.value = ''
-    feelingSelect.value = ''
+// Adding a feeling item
+formGoal.addEventListener("submit", (e) => {
+  e.preventDefault();
 
+  const newItem = {
+    nowGoal: nowGoal.value,
+    futureGoal: futureGoal.value,
+    feeling: feeling.selectedIndex
+  };
+  axios.post("http://localhost:4000/api/goal", newItem)
+    .then((res) => {
+      displayItems(res.data);
+    });
+
+    nowGoal.value = "";
+    futureGoal.value = "";
+    feeling.selectedIndex = 0;
+});
+
+
+
+
+
+
+
+
+// Gif button
+gifBtn.addEventListener("click", () => {
+
+  while (gifSection.firstChild) {
+    gifSection.removeChild(gifSection.firstChild);
   }
 
-  function createGoal(goal) {
-    const goalCard = document.createElement('h2')
-    goalCard.classList.add('goal-card')
-
-    goalCard.innerHTML = `<img alt='house cover image' src=${house.imageURL} class="house-cover-image"/>
-    <p class="address">${house.address}</p>
-    <div class="btns-container">
-        <button onclick="updateHouse(${house.id}, 'minus')">-</button>
-        <p class="house-price">$${house.price}</p>
-        <button onclick="updateHouse(${house.id}, 'plus')">+</button>
-    </div>
-    <button onclick="deleteHouse(${house.id})">delete</button>
-    `
-
-
-    goalsContainer.appendChild(goalCard)
-}
-
- 
-function displayGoals(arr) {
-  goalContainer.innerHTML = ``
-  for (let i = 0; i < arr.length; i++) {
-      createGoalCard(arr[i])
-  }
-}
-
-form.addEventListener('submit', submitHandler)
-
-getAllGoals()
- 
+  axios.get('http://localhost:4000/api/gif')
+    .then((res) => {
+      const gif = document.createElement("img");
+      gif.setAttribute("src", res.data);
+      gif.setAttribute("alt", "whassup");
+      gif.setAttribute("id", "gif");
+      gifSection.appendChild(gif);
+    });
+})

@@ -1,0 +1,59 @@
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+
+button:hover{
+    background-color: #c2c1c1; /* Green */
+  color: turquoise;
+}
+
+
+input {
+    border-radius: 10px;
+    width: 450px;
+    height: 30px;
+}
+select {
+    border-radius: 10px;
+    width: 450px;
+    height: 30px;
+}
+
+
+#boxes {
+    
+    width: 500px;
+    height: 300px;
+    margin-left: 30px;
+    border-radius: 10%;
+    border-width: thin;
+    border-color: black;
+    border-style: solid;
+    
+
+
+}
+    
+
+button {
+    background-color: #232323;
+    width: 120px;
+    height: 60px;
+    color: turquoise;
+    border: none;
+    margin: 5px;
+    border-radius: 10%;
+    transition-duration: 0.4s;
+    padding: 10px;
+  }
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
